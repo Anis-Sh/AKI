@@ -26,11 +26,13 @@ with vasocv1 as
 (
 select d.icustay_id, d.admittime, v.charttime, 
 	case
-	when (charttime-admittime) < '24:00:00' then 1
-	when (charttime-admittime) between '24:00:00' and '48:00:00' then 2
-	when (charttime-admittime) between'48:00:00' and '72:00:00' then 3
-	when (charttime-admittime) between '72:00:00' and '96:00:00' then 4
-	when (charttime-admittime) between '96:00:00' and '120:00:00' then 5
+	when (charttime-admittime) <= '24:00:00' then 1
+	when (charttime-admittime) between '24:00:01' and '48:00:00' then 2
+	when (charttime-admittime) between'48:00:01' and '72:00:00' then 3
+	when (charttime-admittime) between '72:00:01' and '96:00:00' then 4
+	when (charttime-admittime) between '96:00:01' and '120:00:00' then 5
+	when (charttime-admittime) between '120:00:01' and '144:00:00' then 6
+	when (charttime-admittime) between '144:00:01' and '168:00:00' then 7
 	else NULL
 	end as day
 from public.kentran_1_3_demographics_nockd d, vasocv1 v
@@ -79,11 +81,13 @@ with vasocv1 as
 (
 select d.icustay_id, d.admittime, v.charttime, 
 	case
-	when (charttime-admittime) < '24:00:00' then 1
-	when (charttime-admittime) between '24:00:00' and '48:00:00' then 2
-	when (charttime-admittime) between'48:00:00' and '72:00:00' then 3
-	when (charttime-admittime) between '72:00:00' and '96:00:00' then 4
-	when (charttime-admittime) between '96:00:00' and '120:00:00' then 5
+	when (charttime-admittime) <= '24:00:00' then 1
+	when (charttime-admittime) between '24:00:01' and '48:00:00' then 2
+	when (charttime-admittime) between'48:00:01' and '72:00:00' then 3
+	when (charttime-admittime) between '72:00:01' and '96:00:00' then 4
+	when (charttime-admittime) between '96:00:01' and '120:00:00' then 5
+	when (charttime-admittime) between '120:00:01' and '144:00:00' then 6
+	when (charttime-admittime) between '144:00:01' and '168:00:00' then 7
 	else NULL
 	end as day
 from public.kentran_1_3_demographics_nockd d, vasocv1 v
@@ -131,11 +135,13 @@ with vasocv1 as
 (
 select d.icustay_id, d.admittime, v.charttime, 
 	case
-	when (charttime-admittime) < '24:00:00' then 1
-	when (charttime-admittime) between '24:00:00' and '48:00:00' then 2
-	when (charttime-admittime) between'48:00:00' and '72:00:00' then 3
-	when (charttime-admittime) between '72:00:00' and '96:00:00' then 4
-	when (charttime-admittime) between '96:00:00' and '120:00:00' then 5
+	when (charttime-admittime) <= '24:00:00' then 1
+	when (charttime-admittime) between '24:00:01' and '48:00:00' then 2
+	when (charttime-admittime) between'48:00:01' and '72:00:00' then 3
+	when (charttime-admittime) between '72:00:01' and '96:00:00' then 4
+	when (charttime-admittime) between '96:00:01' and '120:00:00' then 5
+	when (charttime-admittime) between '120:00:01' and '144:00:00' then 6
+	when (charttime-admittime) between '144:00:01' and '168:00:00' then 7
 	else NULL
 	end as day
 from public.kentran_1_3_demographics_nockd d, vasocv1 v
@@ -183,11 +189,13 @@ with vasocv1 as
 (
 select d.icustay_id, d.admittime, v.charttime, 
 	case
-	when (charttime-admittime) < '24:00:00' then 1
-	when (charttime-admittime) between '24:00:00' and '48:00:00' then 2
-	when (charttime-admittime) between'48:00:00' and '72:00:00' then 3
-	when (charttime-admittime) between '72:00:00' and '96:00:00' then 4
-	when (charttime-admittime) between '96:00:00' and '120:00:00' then 5
+	when (charttime-admittime) <= '24:00:00' then 1
+	when (charttime-admittime) between '24:00:01' and '48:00:00' then 2
+	when (charttime-admittime) between'48:00:01' and '72:00:00' then 3
+	when (charttime-admittime) between '72:00:01' and '96:00:00' then 4
+	when (charttime-admittime) between '96:00:01' and '120:00:00' then 5
+	when (charttime-admittime) between '120:00:01' and '144:00:00' then 6
+	when (charttime-admittime) between '144:00:01' and '168:00:00' then 7
 	else NULL
 	end as day
 from public.kentran_1_3_demographics_nockd d, vasocv1 v
@@ -235,11 +243,13 @@ with vasocv1 as
 (
 select d.icustay_id, d.admittime, v.charttime, 
 	case
-	when (charttime-admittime) < '24:00:00' then 1
-	when (charttime-admittime) between '24:00:00' and '48:00:00' then 2
-	when (charttime-admittime) between'48:00:00' and '72:00:00' then 3
-	when (charttime-admittime) between '72:00:00' and '96:00:00' then 4
-	when (charttime-admittime) between '96:00:00' and '120:00:00' then 5
+	when (charttime-admittime) <= '24:00:01' then 1
+	when (charttime-admittime) between '24:00:01' and '48:00:00' then 2
+	when (charttime-admittime) between'48:00:01' and '72:00:00' then 3
+	when (charttime-admittime) between '72:00:01' and '96:00:00' then 4
+	when (charttime-admittime) between '96:00:01' and '120:00:00' then 5
+	when (charttime-admittime) between '120:00:01' and '144:00:00' then 6
+	when (charttime-admittime) between '144:00:01' and '168:00:00' then 7
 	else NULL
 	end as day
 from public.kentran_1_3_demographics_nockd d, vasocv1 v

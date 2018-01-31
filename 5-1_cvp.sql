@@ -1,4 +1,4 @@
-﻿set search_path to mimiciii;
+set search_path to mimiciii;
 
 drop table if exists public.kentran_5_1_table_cvp;
 with tab as 
@@ -20,15 +20,17 @@ select ce.icustay_id
 	, ce.valueuom,
 	lead(charttime) OVER(partition by ce.icustay_id ORDER BY charttime DESC) as prev_date -- Ken: need to partition by icustay_id, otherwise the prev_date can be wrong
 	, case 
-	when (ce.charttime-tab.min) < '24:00:00' then 1
-	when (ce.charttime-tab.min) >= '24:00:00' and (ce.charttime-tab.min) < '48:00:00' then 2
-	when (ce.charttime-tab.min) >= '48:00:00' and (ce.charttime-tab.min) < '72:00:00' then 3
-	when (ce.charttime-tab.min) >= '72:00:00' and (ce.charttime-tab.min) < '96:00:00' then 4
-	when (ce.charttime-tab.min) >= '96:00:00' and (ce.charttime-tab.min) < '120:00:00' then 5
+	when (ce.charttime-tab.min) <= '24:00:00' then 1
+	when (ce.charttime-tab.min) > '24:00:00' and (ce.charttime-tab.min) < '48:00:00' then 2
+	when (ce.charttime-tab.min) > '48:00:00' and (ce.charttime-tab.min) < '72:00:00' then 3
+	when (ce.charttime-tab.min) > '72:00:00' and (ce.charttime-tab.min) < '96:00:00' then 4
+	when (ce.charttime-tab.min) > '96:00:00' and (ce.charttime-tab.min) < '120:00:00' then 5
+	when (ce.charttime-tab.min) > '120:00:01' and (ce.charttime-tab.min) < '144:00:00' then 6
+	when (ce.charttime-tab.min) > '144:00:01' and (ce.charttime-tab.min) < '168:00:00' then 7
 	else NULL
 	end as day
 
-		-- To calculate TWM:
+	-- To calculate TWM:
 	, extract(hour from (ce.charttime - lead(charttime) OVER(partition by ce.icustay_id ORDER BY charttime DESC))) as interval
 	, valuenum * extract(hour from (ce.charttime - lead(charttime) OVER(partition by ce.icustay_id ORDER BY charttime DESC))) as value_x_interval
 

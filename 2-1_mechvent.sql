@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS public.kentran_2_1_ventsettings2 CASCADE;
 CREATE TABLE public.kentran_2_1_ventsettings2 AS
 select
   icustay_id
+  -- hide to save space --, itemid
   , charttime
   -- case statement determining whether it is an instance of mech vent
   , max(
@@ -142,17 +143,18 @@ and ce.itemid in
 -- Ken: new filter to look only at patients from our cohort. Remove if desired
 and icustay_id in (
   select icustay_id from public.kentran_1_3_demographics_nockd)
-group by icustay_id, charttime
+group by icustay_id, charttime, itemid
 UNION
 -- add in the extubation flags from procedureevents_mv
 -- note that we only need the start time for the extubation
 -- (extubation is always charted as ending 1 minute after it started)
 select
   icustay_id
+  --, itemid
   , starttime as charttime
   , 0 as MechVent
-  , 1 as Extubated 
-  , case when itemid = 225468 then 1 else 0 end as SelfExtubated
+  , case when itemid in (227194,225468,225477) then 1 else 0 end as Extubated 
+  , case when itemid in (225468,225477) then 1 else 0 end as SelfExtubated
 from procedureevents_mv
 where itemid in
 (
@@ -180,15 +182,27 @@ create table public.kentran_2_1_ventdurations as
 -- create the durations for each mechanical ventilation instance
 select icustay_id
   , ventnum
+  --, lag(ventnum,1) over (partition by icustay_id) as lagventnum
   , min(charttime) as starttime
-  , max(charttime) as endtime
-  , extract(epoch from max(charttime)-min(charttime))/60/60 AS duration_hours
+  , -- Ken: if start times of mechvent are all the same -> duration will be zero
+    -- therefore, look at the charttime of the extubation
+  case 
+    when extract(epoch from max(charttime)-min(charttime))/60/60 = 0
+      then max(leadtime)
+      else max(charttime)
+  end as endtime
+  , 
+  case
+    when extract(epoch from max(charttime)-min(charttime))/60/60 = 0
+      then extract(epoch from max(leadtime)-min(charttime))/60/60
+      else extract(epoch from max(charttime)-min(charttime))/60/60 
+  end as duration_hours
 from
 (
   select vd1.*
   -- create a cumulative sum of the instances of new ventilation
   -- this results in a monotonic integer assigned to each instance of ventilation
-  , case when MechVent=1 or Extubated = 1 then
+  , case when MechVent=1 /*or Extubated = 1*/ then --Ken deleted or Extubated =1
       SUM( newvent )
       OVER ( partition by icustay_id order by charttime )
     else null end
@@ -198,6 +212,7 @@ from
       select
           icustay_id
           -- this carries over the previous charttime which had a mechanical ventilation event
+          , lead(charttime,1) over (partition by icustay_id order by charttime) as leadtime
           , case
               when MechVent=1 then
                 LAG(CHARTTIME, 1) OVER (partition by icustay_id, MechVent order by charttime)
@@ -218,11 +233,12 @@ from
             end as ventduration
 
           -- now we determine if the current mech vent event is a "new", i.e. they've just been intubated
+          --, LAG(extubated, 1) over (partition by icustay_id) as lagextube
           , case
             -- if there is an extubation flag, we mark any subsequent ventilation as a new ventilation event
               when Extubated = 1 then 0 -- extubation is *not* a new ventilation event, the *subsequent* row is
               -- when LAG(Extubated,1) OVER( partition by icustay_id, case when MechVent=1 or Extubated=1 then 1 else 0 end order by charttime) = 1 then 1
-              when MechVent = 1 and LAG(extubated, 1) over (partition by icustay_id order by charttime) = 1 then 1
+              when MechVent = 1 and LAG(extubated, 1) over (partition by icustay_id /*order by charttime*/) = 1 then 1
               -- if there is less than 8 hours between vent settings, we do not treat this as a new ventilation event
               when MechVent = 1 
                 and (CHARTTIME - (LAG(CHARTTIME, 1) OVER (partition by icustay_id, MechVent order by charttime))) > interval '8' hour 
@@ -232,15 +248,17 @@ from
             else 0 -- Ken: changed to 0 to avoid mis-classification
             end as newvent
       -- use the staging table with only vent settings from chart events
-      FROM public.kentran_2_1_ventsettings2 ventsettings2
-      order by icustay_id, charttime
+      FROM (select * from public.kentran_2_1_ventsettings2 
+            where MechVent = 1 or Extubated = 1
+            order by charttime, icustay_id) as ventsettings2
+
   ) AS vd1
   -- now we can isolate to just rows with ventilation settings/extubation settings
   -- (before we had rows with extubation flags)
   -- this removes any null values for newvent
-  where
-    MechVent = 1 or Extubated = 1
+  -- where MechVent = 1 or Extubated = 1 
 ) AS vd2
+where ventnum >=1
 group by icustay_id, ventnum
 order by icustay_id, ventnum;
 

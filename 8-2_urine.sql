@@ -18,6 +18,8 @@ select 	icustay_id
 				when (urine.date_urine-urine.admittime) between '48:00:01' and '72:00:00' then 3
 				when (urine.date_urine-urine.admittime) between '72:00:01' and '96:00:00'  then 4
 				when (urine.date_urine-urine.admittime) between '96:00:01' and '120:00:00' then 5
+				when (urine.date_urine-urine.admittime) between '120:00:01' and '144:00:00' then 6
+				when (urine.date_urine-urine.admittime) between '144:00:01' and '168:00:00' then 7
 				else null
 			end as day_24h
 			, case
@@ -41,6 +43,14 @@ select 	icustay_id
 				when (urine.date_urine-urine.admittime) between '102:00:01' and '108:00:00' then 18
 				when (urine.date_urine-urine.admittime) between '108:00:01' and '114:00:00' then 19
 				when (urine.date_urine-urine.admittime) between '114:00:01' and '120:00:00' then 20
+				when (urine.date_urine-urine.admittime) between '120:00:01' and '126:00:00' then 21
+				when (urine.date_urine-urine.admittime) between '126:00:01' and '132:00:00' then 22
+				when (urine.date_urine-urine.admittime) between '132:00:01' and '138:00:00' then 23
+				when (urine.date_urine-urine.admittime) between '138:00:01' and '144:00:00' then 24
+				when (urine.date_urine-urine.admittime) between '144:00:01' and '150:00:00' then 25
+				when (urine.date_urine-urine.admittime) between '150:00:01' and '156:00:00' then 26
+				when (urine.date_urine-urine.admittime) between '156:00:01' and '162:00:00' then 27
+				when (urine.date_urine-urine.admittime) between '162:00:01' and '168:00:00' then 28
 				else null
 			end as day_6h
 			, case
@@ -54,6 +64,10 @@ select 	icustay_id
 				when (urine.date_urine-urine.admittime) between '84:00:01' and '96:00:00' then 8
 				when (urine.date_urine-urine.admittime) between '96:00:01' and '108:00:00' then 9
 				when (urine.date_urine-urine.admittime) between '108:00:01' and '120:00:00' then 10
+				when (urine.date_urine-urine.admittime) between '120:00:01' and '132:00:00' then 11
+				when (urine.date_urine-urine.admittime) between '132:00:01' and '144:00:00' then 12
+				when (urine.date_urine-urine.admittime) between '144:00:01' and '156:00:00' then 13
+				when (urine.date_urine-urine.admittime) between '156:00:01' and '168:00:00' then 14
 				else null
 			end as day_12h
 		from(
@@ -78,7 +92,7 @@ select 	icustay_id
 						40056, -- "Urine Out Lt Nephrostomy"
 						40405, -- "Urine Out Other"
 						40428, -- "Urine Out Straight Cath"
-						40086,--	Urine Out Incontinent
+						40086, --  Urine Out Incontinent
 						40096, -- "Urine Out Ureteral Stent #1"
 						40651, -- "Urine Out Ureteral Stent #2"
 
@@ -95,6 +109,25 @@ select 	icustay_id
 						226558, -- L Ureteral Stent
 						227488, -- GU Irrigant Volume In
 						227489  -- GU Irrigant/Urine Volume Out
+						
+						--More added:
+						/*43171, --"URINE CC/KG/HR"
+						43173, -- "urinecc/kg/hr"
+						43373, -- urine cc/kg/hr"
+						43374, -- "URINE CC?KG?HR"
+						43379, -- "URINECC/KG/HR"
+						43380, -- "urine outpt cc/kg/hr"
+						43431, -- "Urine cc/k/hr"
+						43522, -- »Urine cc/kg/hr"
+						43576, -- "24hr Urine cc/kg/hr"
+						43589, -- "urine cc/k/hr"
+						43811, -- "urine out: cc/k/hr"
+						43812, -- "urine out:cc/k/hr"
+						43856, -- "urine cc/k/ghr"
+						45304, -- »Urine output cc/k/hr"
+						43333, -- »urine cc's/k/hr"
+						43638, -- "urine output cc/k/hr"
+						43654*/
 						) and
 				demo.subject_id=oe.subject_id 
 			) as urine

@@ -20,11 +20,13 @@ group by  ce.icustay_id
 select ce.icustay_id, ce.itemid, ce.charttime, ce.valuenum, ce.valueuom, demo.admittime,
 	--lead(charttime) OVER(ORDER BY charttime DESC) as prev_date,
 	case 
-	when (ce.charttime-demo.admittime) < '24:00:00' then 1
-	when (ce.charttime-demo.admittime) >= '24:00:00' and (ce.charttime-demo.admittime) < '48:00:00' then 2
-	when (ce.charttime-demo.admittime) >= '48:00:00' and (ce.charttime-demo.admittime) < '72:00:00' then 3
-	when (ce.charttime-demo.admittime) >= '72:00:00' and (ce.charttime-demo.admittime) < '96:00:00' then 4
-	when (ce.charttime-demo.admittime) >= '96:00:00' and (ce.charttime-demo.admittime) < '120:00:00' then 5
+	when (ce.charttime-demo.admittime) <= '24:00:00' then 1
+	when (ce.charttime-demo.admittime) > '24:00:01' and (ce.charttime-demo.admittime) <= '48:00:00' then 2
+	when (ce.charttime-demo.admittime) > '48:00:01' and (ce.charttime-demo.admittime) <= '72:00:00' then 3
+	when (ce.charttime-demo.admittime) > '72:00:01' and (ce.charttime-demo.admittime) <= '96:00:00' then 4
+	when (ce.charttime-demo.admittime) > '96:00:01' and (ce.charttime-demo.admittime) <= '120:00:00' then 5
+	when (ce.charttime-demo.admittime) > '120:00:01' and (ce.charttime-demo.admittime) <= '144:00:00' then 6
+	when (ce.charttime-demo.admittime) > '144:00:01' and (ce.charttime-demo.admittime) <= '168:00:00' then 7
 	else NULL
 	end as day
 from chartevents ce
@@ -58,11 +60,13 @@ group by  ce.icustay_id
 select ce.icustay_id, ce.itemid, ce.charttime, ce.valuenum, ce.valueuom, demo.admittime,
 	--lead(charttime) OVER(ORDER BY charttime DESC) as prev_date,
 	case 
-	when (ce.charttime-demo.admittime) < '24:00:00' then 1
-	when (ce.charttime-demo.admittime) >= '24:00:00' and (ce.charttime-demo.admittime) < '48:00:00' then 2
-	when (ce.charttime-demo.admittime) >= '48:00:00' and (ce.charttime-demo.admittime) < '72:00:00' then 3
-	when (ce.charttime-demo.admittime) >= '72:00:00' and (ce.charttime-demo.admittime) < '96:00:00' then 4
-	when (ce.charttime-demo.admittime) >= '96:00:00' and (ce.charttime-demo.admittime) < '120:00:00' then 5
+	when (ce.charttime-demo.admittime) <= '24:00:00' then 1
+	when (ce.charttime-demo.admittime) > '24:00:01' and (ce.charttime-demo.admittime) <= '48:00:00' then 2
+	when (ce.charttime-demo.admittime) > '48:00:01' and (ce.charttime-demo.admittime) <= '72:00:00' then 3
+	when (ce.charttime-demo.admittime) > '72:00:01' and (ce.charttime-demo.admittime) <= '96:00:00' then 4
+	when (ce.charttime-demo.admittime) > '96:00:01' and (ce.charttime-demo.admittime) <= '120:00:00' then 5
+	when (ce.charttime-demo.admittime) > '120:00:01' and (ce.charttime-demo.admittime) <= '144:00:00' then 6
+	when (ce.charttime-demo.admittime) > '144:00:01' and (ce.charttime-demo.admittime) <= '168:00:00' then 7
 	else NULL
 	end as day
 from chartevents ce, public.kentran_2_2_database_ventiles demo
@@ -96,11 +100,13 @@ group by  ce.icustay_id
 select ce.icustay_id, ce.itemid, ce.charttime, ce.valuenum, ce.valueuom, demo.admittime,
 	--lead(charttime) OVER(ORDER BY charttime DESC) as prev_date,
 	case 
-	when (ce.charttime-demo.admittime) < '24:00:00' then 1
-	when (ce.charttime-demo.admittime) >= '24:00:00' and (ce.charttime-demo.admittime) < '48:00:00' then 2
-	when (ce.charttime-demo.admittime) >= '48:00:00' and (ce.charttime-demo.admittime) < '72:00:00' then 3
-	when (ce.charttime-demo.admittime) >= '72:00:00' and (ce.charttime-demo.admittime) < '96:00:00' then 4
-	when (ce.charttime-demo.admittime) >= '96:00:00' and (ce.charttime-demo.admittime) < '120:00:00' then 5
+	when (ce.charttime-demo.admittime) <= '24:00:00' then 1
+	when (ce.charttime-demo.admittime) > '24:00:01' and (ce.charttime-demo.admittime) <= '48:00:00' then 2
+	when (ce.charttime-demo.admittime) > '48:00:01' and (ce.charttime-demo.admittime) <= '72:00:00' then 3
+	when (ce.charttime-demo.admittime) > '72:00:01' and (ce.charttime-demo.admittime) <= '96:00:00' then 4
+	when (ce.charttime-demo.admittime) > '96:00:01' and (ce.charttime-demo.admittime) <= '120:00:00' then 5
+	when (ce.charttime-demo.admittime) > '120:00:01' and (ce.charttime-demo.admittime) <= '144:00:00' then 6
+	when (ce.charttime-demo.admittime) > '144:00:01' and (ce.charttime-demo.admittime) <= '168:00:00' then 7
 	else NULL
 	end as day
 from chartevents ce, public.kentran_2_2_database_ventiles demo
@@ -133,11 +139,13 @@ group by  ce.icustay_id
 select ce.icustay_id, ce.itemid, ce.charttime, ce.valuenum, ce.valueuom, demo.admittime,
 	--lead(charttime) OVER(ORDER BY charttime DESC) as prev_date,
 	case 
-	when (ce.charttime-demo.admittime) < '24:00:00' then 1
-	when (ce.charttime-demo.admittime) >= '24:00:00' and (ce.charttime-demo.admittime) < '48:00:00' then 2
-	when (ce.charttime-demo.admittime) >= '48:00:00' and (ce.charttime-demo.admittime) < '72:00:00' then 3
-	when (ce.charttime-demo.admittime) >= '72:00:00' and (ce.charttime-demo.admittime) < '96:00:00' then 4
-	when (ce.charttime-demo.admittime) >= '96:00:00' and (ce.charttime-demo.admittime) < '120:00:00' then 5
+	when (ce.charttime-demo.admittime) <= '24:00:00' then 1
+	when (ce.charttime-demo.admittime) > '24:00:00' and (ce.charttime-demo.admittime) <= '48:00:00' then 2
+	when (ce.charttime-demo.admittime) > '48:00:00' and (ce.charttime-demo.admittime) <= '72:00:00' then 3
+	when (ce.charttime-demo.admittime) > '72:00:00' and (ce.charttime-demo.admittime) <= '96:00:00' then 4
+	when (ce.charttime-demo.admittime) > '96:00:00' and (ce.charttime-demo.admittime) <= '120:00:00' then 5
+	when (ce.charttime-demo.admittime) > '120:00:01' and (ce.charttime-demo.admittime) <= '144:00:00' then 6
+	when (ce.charttime-demo.admittime) > '144:00:01' and (ce.charttime-demo.admittime) <= '168:00:00' then 7
 	else NULL
 	end as day
 from chartevents ce, public.kentran_1_3_demographics_nockd demo

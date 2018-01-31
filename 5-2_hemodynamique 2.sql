@@ -1,4 +1,4 @@
-﻿set search_path to mimiciii;
+set search_path to mimiciii;
 drop table if exists public.kentran_5_2_table_hemodyn;
 
 with tab1 as
@@ -34,7 +34,7 @@ where ce.itemid in
 	, 113, 1103 -- Ken: missing from the list
 	) 
 AND ce.icustay_id=demo.icustay_id  
-and demo.icustay_id between 200075 and 200100
+-- and demo.icustay_id between 200075 and 200100 --Ken: for testing only
 order by ce.icustay_id, ce.charttime
 )
 -- select  * from tab1
@@ -109,11 +109,13 @@ select tab2.icustay_id
 	, tab2.charttime
 	, tab2.type
 	, case
-		when (tab2.charttime-demo.admittime) < '24:00:00' then 1
-		when (tab2.charttime-demo.admittime) between '24:00:00' and '48:00:00'  then 2
-		when (tab2.charttime-demo.admittime) between '48:00:00' and '72:00:00' then 3
-		when (tab2.charttime-demo.admittime) between '72:00:00' and '96:00:00'  then 4
-		when (tab2.charttime-demo.admittime) between '96:00:00' and '120:00:00' then 5
+		when (tab2.charttime-demo.admittime) <= '24:00:00' then 1
+		when (tab2.charttime-demo.admittime) between '24:00:01' and '48:00:00'  then 2
+		when (tab2.charttime-demo.admittime) between '48:00:01' and '72:00:00' then 3
+		when (tab2.charttime-demo.admittime) between '72:00:01' and '96:00:00'  then 4
+		when (tab2.charttime-demo.admittime) between '96:00:01' and '120:00:00' then 5
+		when (tab2.charttime-demo.admittime) between '120:00:01' and '144:00:00' then 6
+		when (tab2.charttime-demo.admittime) between '144:00:01' and '168:00:00' then 7
 	else null
 	end as day
 
@@ -226,7 +228,7 @@ on tab4.icustay_id=tab6.icustay_id and tab4.day=tab6.day
 )
 
 select * into public.kentran_5_2_table_hemodyn  
-from tab7 order by tab4.icustay_id, tab4.day;
+from tab7 order by icustay_id, day;
 
 select * from public.kentran_5_2_table_hemodyn;
 

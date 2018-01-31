@@ -18,11 +18,13 @@ from (
 	select icustay_id
 		, rrt.rrt as rrt --conversion en micromol/L
 		, case
-			when (rrt.date_rrt-rrt.admittime) < '24:00:00' then 1
-			when (rrt.date_rrt-rrt.admittime) between '24:00:00' and '48:00:00'  then 2
-			when (rrt.date_rrt-rrt.admittime) between '48:00:00' and '72:00:00' then 3
-			when (rrt.date_rrt-rrt.admittime) between '72:00:00' and '96:00:00'  then 4
-			when (rrt.date_rrt-rrt.admittime) between '96:00:00' and '120:00:00' then 5
+			when (rrt.date_rrt-rrt.admittime) <= '24:00:00' then 1
+			when (rrt.date_rrt-rrt.admittime) between '24:00:01' and '48:00:00'  then 2
+			when (rrt.date_rrt-rrt.admittime) between '48:00:01' and '72:00:00' then 3
+			when (rrt.date_rrt-rrt.admittime) between '72:00:01' and '96:00:00'  then 4
+			when (rrt.date_rrt-rrt.admittime) between '96:00:01' and '120:00:00' then 5
+			when (rrt.date_rrt-rrt.admittime) between '120:00:01' and '144:00:00' then 6
+			when (rrt.date_rrt-rrt.admittime) between '144:00:01' and '168:00:00' then 7
 			else null
 		end as day
 	from(

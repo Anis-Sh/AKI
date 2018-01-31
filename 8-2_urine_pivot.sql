@@ -37,7 +37,7 @@ select distinct
 		icustay_id
 		,day_24h
 		, case 
-			when day_6h in (1,5,9,13,17)
+			when day_6h in (1,5,9,13,17,21,25)
 			then urine_6h_kgh
 
 			end as urine_6h_kgh_1
@@ -53,7 +53,7 @@ select distinct
 		icustay_id
 		,day_24h
 		, case 
-			when day_6h in (2,6,10,14,18)
+			when day_6h in (2,6,10,14,18,22,26)
 			then urine_6h_kgh
 			
 			end as urine_6h_kgh_2
@@ -69,7 +69,7 @@ select distinct
 		icustay_id
 		,day_24h
 		, case 
-			when day_6h in (3,7,11,15,19)
+			when day_6h in (3,7,11,15,19,23,27)
 			then urine_6h_kgh
 			
 
@@ -86,7 +86,7 @@ select distinct
 		icustay_id
 		,day_24h
 		, case 
-			when day_6h in (4,8,12,16,20)
+			when day_6h in (4,8,12,16,20,24,28)
 			then urine_6h_kgh
 			
 
