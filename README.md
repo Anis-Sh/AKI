@@ -3,6 +3,7 @@ Impact of mechanical ventilation settings on acute kidney inury occurence in cri
 
 
 Run each SQL in sequence from 1.1 to 9. Exception is run 1-4 before 1-3
+
 .csv files correspond to each SQL. 
 
 There are some per-requisites scripts in the "severity" folder. 
